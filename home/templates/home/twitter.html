@@ -1,0 +1,163 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="Lucas Mart">
+
+    <title>LabCor Painel - Buscar no Twitter</title>
+    <meta name="robots" content="noindex">
+
+    {% include 'home/includes/css.html' %}
+
+  </head>
+
+  <body onload="startTime()"> 
+    <!-- loader starts-->
+    <div class="loader-wrapper">
+      <div class="loader-index"> <span></span></div>
+      <svg>
+        <defs></defs>
+        <filter id="goo">
+          <fegaussianblur in="SourceGraphic" stddeviation="11" result="blur"></fegaussianblur>
+          <fecolormatrix in="blur" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo"> </fecolormatrix>
+        </filter>
+      </svg>
+    </div>
+    <!-- loader ends-->
+    <!-- tap on top starts-->
+    <div class="tap-top"><i data-feather="chevrons-up"></i></div>
+    <!-- tap on tap ends-->
+    <!-- page-wrapper Start-->
+    <div class="page-wrapper compact-wrapper" id="pageWrapper">
+
+      {% include 'home/includes/menu_nav.html' %}
+
+      <!-- Page Header Ends                              -->
+      <!-- Page Body Start-->
+      <div class="page-body-wrapper">
+        <!-- Page Sidebar Start-->
+        
+        {% include 'home/includes/header.html' %}
+
+        <!-- Page Sidebar Ends-->
+        <div class="page-body">
+          
+          <div class="container-fluid" >        
+            <div class="page-title" style="background: #2a4070; color: #fff;">
+              <div class="row">
+                <div class="col-6">
+                  <h3>Buscar no Twitter</h3>
+                </div>
+                <div class="col-6">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/instagram">                                       
+                        <svg class="stroke-icon">
+                          <use href="{% static 'assets/svg/icon-sprite.svg#stroke-home' %}"></use>
+                        </svg></a></li>
+                    <li class="breadcrumb-item">Painel</li>
+                    
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row widget-grid">
+
+              <div class="container-fluid search-page">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="card">
+                      <div class="card-header">
+                        <form class="theme-form" method="POST" action="{% url 'twitter' %}">
+                          {% csrf_token %}
+                          <div class="input-group m-0 flex-nowrap">
+                            <input class="form-control-plaintext" type="text" name="search" placeholder="Buscar .."><button type="submit" class="btn btn-primary input-group-text">Buscar</button>
+                          </div>
+                        </form>
+                      </div>
+                      <div class="card-body">
+
+                        {% include 'home/includes/social-menu.html' %}
+                        
+                        <div class="tab-content" id="top-tabContent">
+                          <div class="search-links tab-pane fade show active" id="all-links" role="tabpanel" aria-labelledby="all-link">
+                            <div class="row">
+                              <div class="col-xxl-12 col-xl-6 box-col-12">
+
+                                {% if search %}
+                                <h6 class="mb-2">Resultados para "{{search}}"</h6>
+                                {% endif %}
+                                
+                                <!-- Loop Start -->
+                                {% for result in search_results %}
+                                <div class="info-block">
+
+                                  {% if 'twitter.com' in result.link %}
+                                  <i style="font-size: 18px; color: #1DA1F2;" class="fa-brands fa-twitter"></i>
+                                  {% endif %}
+                                  
+                                  <a href="{{ result.link }}" target="_blank">{{ result.displayed_link }}</a>
+                                  <h6><a href="{{ result.link }}" target="_blank">{{ result.title }}</a></h6>
+                                  <p>{{ result.snippet }}</p>
+                                  <div class="star-ratings">
+                                    <ul class="search-info">
+                                      <li>LabCor search</li>
+                                      <li>type</li>
+                                      <li>Twitter</li>
+                                    </ul>
+                                  </div>
+                                </div>
+                                {% endfor %}
+
+                              </div>
+
+                              <!--
+                              <div class="col-12 m-t-30">
+                                <nav aria-label="...">
+                                  <ul class="pagination pagination-primary justify-content-end">
+                                    <li class="page-item disabled"><a class="page-link" href="javascript:void(0)" tabindex="-1">Previous</a></li>
+                                    <li class="page-item"><a class="page-link" href="javascript:void(0)">1</a></li>
+                                    <li class="page-item active"><a class="page-link" href="javascript:void(0)">2<span class="sr-only">(current)</span></a></li>
+                                    <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
+                                    <li class="page-item"><a class="page-link" href="javascript:void(0)">Next</a></li>
+                                  </ul>
+                                </nav>
+                              </div>
+                              -->
+
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        
+            </div>
+          </div>
+
+          <!-- Container-fluid Ends-->
+        </div>
+        <!-- footer start-->
+
+        {% include 'home/includes/footer.html' %}
+        
+      </div>
+    </div>
+    <!-- latest jquery-->
+
+    {% include 'home/includes/js.html' %}
+
+  </body>
+</html>
