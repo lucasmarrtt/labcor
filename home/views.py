@@ -9,7 +9,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import requests
 
 
-API_KEY_SCALE_SERP = '19E4207DBB2442D99FF302455C3C33B3'
+API_KEY_SCALE_SERP = '6B9E235784D1423A81E2564AB90EC2E9'
 
 
 # ----- Login and logout ----- #
@@ -38,6 +38,44 @@ def logoutU(request):
     logout(request)
     return redirect('index')
 # ----- End -----   
+
+
+
+
+
+
+@login_required
+def global_view(request):
+    active = 'google'
+    GOOGLE = ''
+
+    context = {'active': active}
+
+    if request.method == 'POST':
+        option_search = request.POST.get('option_search')
+        search = request.POST.get('search')
+
+        print(option_search)
+        print(search)
+
+
+    return render(request, 'home/global.html', context)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
 
 @login_required
@@ -48,9 +86,10 @@ def google(request):
     context = {'active': active}
     if request.method == 'POST':
         search = request.POST.get('search')
+        option_search = request.POST.get('option_search')
         params = {
             'api_key': f'{API_KEY_SCALE_SERP}',
-            'q': f'{search},',
+            'q': f'{search}, {option_search}',
             'gl': 'br',
             'hl': 'pt-br',
               

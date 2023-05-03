@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Global Search</title>
+</head>
+<body>
+
+    
+
+    <form id="global-search-form" method="POST" action="{% url 'global' %}">
+        {% csrf_token %}
+
+        <input type="text" name="search">
+
+         <label><input onchange="this.form.submit();" type="radio" name="option_search" value="Facebook">Facebook</label>
+         <label><input onchange="this.form.submit();" type="radio" name="option_search" value="Twitter">Twitter</label>
+         <label><input onchange="this.form.submit();" type="radio" name="option_search" value="Instagram">Instagram</label>
+
+         <button>Enviar</button>
+
+    </form>
+
+
+
+
+
+
+
+                                {% for result in search_results %}
+                                <div class="info-block">
+
+                                  {% if 'youtube.com' in result.link %}
+                                  <i style="font-size: 18px; color: #FF0000;" class="fa-brands fa-youtube"></i>
+                                  {% endif %}
+                                  
+                                  <a href="{{ result.link }}" target="_blank">{{ result.displayed_link }}</a>
+                                  <h6><a href="{{ result.link }}" target="_blank">{{ result.title }}</a></h6>
+                                  <p>{{ result.snippet }}</p>
+                                  <div class="star-ratings">
+                                    <ul class="search-info">
+                                      <li>LabCor search</li>
+                                      <li>type</li>
+                                      <li>Youtube</li>
+                                    </ul>
+                                  </div>
+                                </div>
+                                {% endfor %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

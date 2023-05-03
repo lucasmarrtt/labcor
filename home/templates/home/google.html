@@ -80,13 +80,40 @@
                         <form class="theme-form" method="POST" action="{% url 'google' %}">
                           {% csrf_token %}
                           <div class="input-group m-0 flex-nowrap">
-                            <input class="form-control-plaintext" type="text" name="search" placeholder="Buscar .."><button type="submit" class="btn btn-primary input-group-text">Buscar</button>
+                            <input class="form-control-plaintext" type="text" name="search" value="{{ search }}" placeholder="Buscar .."><button type="submit" class="btn btn-primary input-group-text">Buscar</button>
                           </div>
-                        </form>
+                        
                       </div>
                       <div class="card-body">
 
+                        
+                        <!--
+
+                          <form id="global-search-form" method="POST" action="{% url 'google' %}">
+
+                            {% csrf_token %}
+       
+
+        <input type="text" value="{{ search }}" name="search">
+
+        <label><input onchange="this.form.submit();" type="radio" name="option_search" value="">Google</label>
+         <label><input onchange="this.form.submit();" type="radio" name="option_search" value="Facebook">Facebook</label>
+         <label><input onchange="this.form.submit();" type="radio" name="option_search" value="Twitter">Twitter</label>
+         <label><input onchange="this.form.submit();" type="radio" name="option_search" value="Instagram">Instagram</label>
+         <label><input onchange="this.form.submit();" type="radio" name="option_search" value="Youtube">Youtube</label>
+         <label><input onchange="this.form.submit();" type="radio" name="option_search" value="Linkedin">Linkedin</label>
+
+         <button>Enviar</button>
+
+    </form>
+
+  -->
+
+
+
                         {% include 'home/includes/social-menu.html' %}
+
+                        </form>
                         
                         <div class="tab-content" id="top-tabContent">
                           <div class="search-links tab-pane fade show active" id="all-links" role="tabpanel" aria-labelledby="all-link">
@@ -101,7 +128,21 @@
                                 {% for result in search_results %}
                                 <div class="info-block">
 
+                                  {% if 'facebook.com' in result.link %}
+                                  <i style="font-size: 18px; color: #4267B2;" class="fa-brands fa-facebook"></i>
+                                  {% elif 'instagram.com' in result.link %}
+                                  <i style="font-size: 18px; color: #E1306C;" class="fa-brands fa-instagram"></i>
+                                  {% elif 'youtube.com' in result.link %}
+                                  <i style="font-size: 18px; color: #FF0000;" class="fa-brands fa-youtube"></i>
+                                  {% elif 'facebook.com' in result.link %}
+                                  <i style="font-size: 18px; color: #4267B2;" class="fa-brands fa-facebook"></i>
+                                  {% elif 'linkedin.com' in result.link %}
+                                  <i style="font-size: 18px; color: #0a66c2;" class="fa-brands fa-linkedin"></i>
+                                  {% elif 'twitter.com' in result.link %}
+                                  <i style="font-size: 18px; color: #1DA1F2;" class="fa-brands fa-twitter"></i>
+                                  {% else %}
                                   <i style="font-size: 18px; color: #0F9D58;" class="fa-brands fa-google"></i>
+                                  {% endif %}
                                   
                                   <a href="{{ result.link }}" target="_blank">{{ result.displayed_link }}</a>
                                   <h6><a href="{{ result.link }}" target="_blank">{{ result.title }}</a></h6>
@@ -156,6 +197,42 @@
     <!-- latest jquery-->
 
     {% include 'home/includes/js.html' %}
+
+
+    <script type="text/javascript">
+
+
+const radios = document.getElementsByName('option_search');
+const links = document.querySelectorAll('a[id]');
+
+// Adiciona um listener de evento para cada input radio
+radios.forEach(radio => {
+  radio.addEventListener('change', () => {
+    const linkId = radio.id.replace('id', '').toLowerCase();
+    const link = document.getElementById(linkId);
+
+    // Armazena o ID do elemento a correspondente no armazenamento local
+    localStorage.setItem('selectedLinkId', linkId);
+    
+    links.forEach(link => {
+      link.classList.remove('active');
+    });
+    
+    link.classList.add('active');
+  });
+});
+
+// Verifica o armazenamento local e adiciona a classe active ao elemento a correspondente, se necessário
+const selectedLinkId = localStorage.getItem('selectedLinkId');
+if (selectedLinkId) {
+  const selectedLink = document.getElementById(selectedLinkId);
+  selectedLink.classList.add('active');
+}
+
+
+      
+
+    </script>
 
   </body>
 </html>

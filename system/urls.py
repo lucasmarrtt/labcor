@@ -37,6 +37,8 @@ urlpatterns = [
     path('twitter/', views.twitter, name='twitter'),
     path('busca-avancada/', views.advanced_search, name='busca-avancada'),
 
+    path('global/', views.global_view, name='global'),
+
 
   
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -80,14 +80,14 @@
                         <form class="theme-form" method="POST" action="{% url 'facebook' %}">
                           {% csrf_token %}
                           <div class="input-group m-0 flex-nowrap">
-                            <input class="form-control-plaintext" type="text" name="search" placeholder="Buscar .."><button type="submit" class="btn btn-primary input-group-text">Buscar</button>
+                            <input class="form-control-plaintext" type="text" name="search" {% if search %}  value="{{ search }}" {% endif %} placeholder="Buscar .."><button type="submit" class="btn btn-primary input-group-text">Buscar</button>
                           </div>
                         </form>
                       </div>
                       <div class="card-body">
 
                         {% include 'home/includes/social-menu.html' %}
-                        
+          
                         <div class="tab-content" id="top-tabContent">
                           <div class="search-links tab-pane fade show active" id="all-links" role="tabpanel" aria-labelledby="all-link">
                             <div class="row">
@@ -169,7 +169,63 @@
 
 
 
+    <script>
 
+
+
+      // Define uma função para armazenar o valor do input global em um cookie
+function setGlobalInputValue(value) {
+  document.cookie = "globalInputValue=" + value + "; path=/";
+}
+
+// Obtém o valor do input global e o armazena em um cookie
+const globalInput = document.querySelector("#global");
+globalInput.addEventListener("input", function() {
+  setGlobalInputValue(globalInput.value);
+});
+
+// Obtém o valor armazenado no cookie e o preenche no input global
+const globalInputValue = document.cookie
+  .split("; ")
+  .find(row => row.startsWith("globalInputValue="))
+  ?.split("=")[1];
+if (globalInputValue) {
+  globalInput.value = globalInputValue;
+}
+
+
+
+
+
+
+      // Adiciona um ouvinte de eventos ao campo de texto global
+      $('#global').keyup(function() {
+        const searchValue = $(this).val(); // obtém o valor do campo de texto global
+        // Atualiza o valor dos campos de texto dos outros formulários com o mesmo valor
+        $('#facebookSearch').val(searchValue);
+        $('#twitterSearch').val(searchValue);
+      });
+      
+      // Adiciona um ouvinte de eventos ao clique do botão de cada formulário
+      $('form button[type="submit"]').click(function(event) {
+        event.preventDefault(); // impede o envio do formulário
+        const targetForm = event.target.parentNode;
+        const searchInput = targetForm.querySelector('input[type="hidden"]');
+        searchInput.value = $('#global').val(); // obtém o valor do campo de texto global e atualiza o valor do input do formulário
+        $.ajax({
+          type: targetForm.method, // obtém o método do formulário
+          url: targetForm.action, // obtém a URL do formulário
+          data: $(targetForm).serialize(), // serializa os dados do formulário para o formato de query string
+          success: function(response) {
+            console.log('Resposta:', response); // exibe a resposta da requisição no console
+          },
+          error: function(error) {
+            console.error('Erro:', error); // exibe o erro da requisição no console
+          }
+        });
+      });
+    </script>
+    
     
 
   </body>
