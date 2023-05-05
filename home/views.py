@@ -9,7 +9,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import requests
 
 
-API_KEY_SCALE_SERP = '6B9E235784D1423A81E2564AB90EC2E9'
+API_KEY_SCALE_SERP = 'A908E1EAF5424306AF13FC5D7C7C89E0'
 
 
 # ----- Login and logout ----- #
@@ -62,21 +62,6 @@ def global_view(request):
     return render(request, 'home/global.html', context)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
 
 @login_required
 def google(request):
