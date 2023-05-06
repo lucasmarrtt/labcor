@@ -29,12 +29,11 @@ urlpatterns = [
     path('logout/', views.logoutU, name='logout'),
 
     # Pages
-    path('google/', views.google, name='google'),
-    path('instagram/', views.instagram, name='instagram'),
-    path('facebook/', views.facebook, name='facebook'),
-    path('youtube/', views.youtube, name='youtube'),
-    path('linkedin/', views.linkedin, name='linkedin'),
-    path('twitter/', views.twitter, name='twitter'),
+    #path('google/', views.google, name='google'),
+    #path('instagram/', views.instagram, name='instagram'),
+
+  
+    
     path('busca-avancada/', views.advanced_search, name='busca-avancada'),
 
     path('global/', views.global_view, name='global'),

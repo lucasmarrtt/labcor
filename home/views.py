@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import requests
+from bs4 import BeautifulSoup 
 
 
 API_KEY_SCALE_SERP = 'A908E1EAF5424306AF13FC5D7C7C89E0'
@@ -15,7 +16,7 @@ API_KEY_SCALE_SERP = 'A908E1EAF5424306AF13FC5D7C7C89E0'
 # ----- Login and logout ----- #
 def index(request):
     if request.user.is_authenticated:
-        return redirect('google')
+        return redirect('global')
     else:
         if request.method == 'POST':
             username = request.POST.get('username')
@@ -25,7 +26,7 @@ def index(request):
 
             if user is not None:
                 login(request, user)
-                return redirect('google')
+                return redirect('global')
             else: 
                 messages.info(request, 'Nome de usuário ou senha incorretos')
                 return render (request, 'home/index.html')
@@ -46,23 +47,58 @@ def logoutU(request):
 
 @login_required
 def global_view(request):
-    active = 'google'
-    GOOGLE = ''
-
-    context = {'active': active}
-
+    context = {}
     if request.method == 'POST':
-        option_search = request.POST.get('option_search')
-        search = request.POST.get('search')
 
-        print(option_search)
-        print(search)
+        search = request.POST.get('search')
+        search_page = request.POST.get('page')
+
+        headers =  {'User-agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:61.0) Gecko/20100101 Firefox/61.0'}
+
+        if search_page is None:
+            url = 'https://www.ask.com/web?q='+search
+        else:
+            url = f'https://www.ask.com/web?q={search}&page={search_page}'
+
+
+        response = requests.get(url, headers=headers)
+
+
+
+
+        soup = BeautifulSoup(response.text, 'html.parser')
+        search_results = soup.find_all('div', class_='PartialSearchResults-item-wrapper')
+
+        final_result = []
+
+
+        print(response.url)
+
+
+
+        for result in search_results:
+            title = result.find(class_='PartialSearchResults-item-title').text
+            link = result.find('a').get('href')
+            result_desc = result.find(class_='PartialSearchResults-item-abstract').text
+            #link_social = result.find('div', class_='b_topicon_container').find('a')['href']
+            #link_social = result.find('h2').find('a')['href']
+
+            
+
+            final_result.append((title, link, result_desc))
+
+   
+    
+        context = {
+            'qs': final_result,
+            'search': search,
+        }    
 
 
     return render(request, 'home/global.html', context)
 
 
-
+'''
 @login_required
 def google(request):
     active = 'google'
@@ -302,6 +338,7 @@ def twitter(request):
         }
 
     return render(request, 'home/twitter.html', context)    
+'''
 
 
 @login_required
