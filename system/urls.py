@@ -29,7 +29,7 @@ urlpatterns = [
     path('logout/', views.logoutU, name='logout'),
 
     # Pages
-    #path('google/', views.google, name='google'),
+    path('google/', views.google, name='google'),
     #path('instagram/', views.instagram, name='instagram'),
 
   

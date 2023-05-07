@@ -16,7 +16,7 @@ API_KEY_SCALE_SERP = 'A908E1EAF5424306AF13FC5D7C7C89E0'
 # ----- Login and logout ----- #
 def index(request):
     if request.user.is_authenticated:
-        return redirect('global')
+        return redirect('google')
     else:
         if request.method == 'POST':
             username = request.POST.get('username')
@@ -26,7 +26,7 @@ def index(request):
 
             if user is not None:
                 login(request, user)
-                return redirect('global')
+                return redirect('google')
             else: 
                 messages.info(request, 'Nome de usuário ou senha incorretos')
                 return render (request, 'home/index.html')
@@ -58,7 +58,7 @@ def global_view(request):
         if search_page is None:
             url = 'https://www.google.com/search?q='+search
         else:
-            url = f'https://www.bing.com/search?q={search}&page={search_page}'
+            url = f'https://www.google.com/search?q={search}&page={search_page}'
 
 
         response = requests.get(url, headers=headers)
@@ -73,7 +73,7 @@ def global_view(request):
 
 
         for result in search_results:
-            title = result.find('h3')
+            title = result.find('h3', class_="LC20lb MBeuO DKV0Md")
             link = result.find('a').get('href')
             result_desc = result.find(class_='OgdwYG6KE2qthn9XQWFC')
             #link_social = result.find('div', class_='b_topicon_container').find('a')['href']
@@ -94,7 +94,7 @@ def global_view(request):
     return render(request, 'home/global.html', context)
 
 
-'''
+
 @login_required
 def google(request):
     active = 'google'
@@ -102,8 +102,16 @@ def google(request):
 
     context = {'active': active}
     if request.method == 'POST':
+
         search = request.POST.get('search')
         option_search = request.POST.get('option_search')
+        search_page = request.POST.get('page')
+
+        if search_page is None:
+            search_page = 1
+        else:
+            search_page    
+
         params = {
             'api_key': f'{API_KEY_SCALE_SERP}',
             'q': f'{search}, {option_search}',
@@ -114,10 +122,10 @@ def google(request):
             'max_page': '3',
 
             # Quantas Vou carregar por vez  
-            'num': '40', 
+            'num': '5', 
 
             # Quantidade de páginas que irei exibir os resultados
-            'page': '1',  
+            'page': f'{search_page}',  
         }
 
         # make the http GET request to Scale SERP
@@ -136,6 +144,7 @@ def google(request):
     return render(request, 'home/google.html', context)
 
 
+'''
 @login_required
 def instagram(request):
     active = 'instagram'
