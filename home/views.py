@@ -73,7 +73,7 @@ def global_view(request):
 
 
         for result in search_results:
-            title = result.find('h3').text
+            title = result.find('h3')
             link = result.find('a').get('href')
             result_desc = result.find(class_='OgdwYG6KE2qthn9XQWFC')
             #link_social = result.find('div', class_='b_topicon_container').find('a')['href']
