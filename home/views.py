@@ -56,9 +56,9 @@ def global_view(request):
         headers =  {'User-agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:61.0) Gecko/20100101 Firefox/61.0'}
 
         if search_page is None:
-            url = 'https://www.ask.com/web?q='+search
+            url = 'https://www.google.com/search?q='+search
         else:
-            url = f'https://www.ask.com/web?q={search}&page={search_page}'
+            url = f'https://www.bing.com/search?q={search}&page={search_page}'
 
 
         response = requests.get(url, headers=headers)
@@ -67,19 +67,15 @@ def global_view(request):
 
 
         soup = BeautifulSoup(response.text, 'html.parser')
-        search_results = soup.find_all('div', class_='PartialSearchResults-item-wrapper')
+        search_results = soup.find_all('div', class_='MjjYud')
 
         final_result = []
 
 
-        print(response.url)
-
-
-
         for result in search_results:
-            title = result.find(class_='PartialSearchResults-item-title').text
+            title = result.find('h3').text
             link = result.find('a').get('href')
-            result_desc = result.find(class_='PartialSearchResults-item-abstract').text
+            result_desc = result.find(class_='OgdwYG6KE2qthn9XQWFC')
             #link_social = result.find('div', class_='b_topicon_container').find('a')['href']
             #link_social = result.find('h2').find('a')['href']
 
