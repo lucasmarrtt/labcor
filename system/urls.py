@@ -30,7 +30,7 @@ urlpatterns = [
 
     # Pages
     path('google/', views.google, name='google'),
-    #path('instagram/', views.instagram, name='instagram'),
+    path('api-search/', views.google_search_api, name='api-search'),
 
   
     

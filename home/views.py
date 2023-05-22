@@ -16,7 +16,7 @@ API_KEY_SCALE_SERP = 'A908E1EAF5424306AF13FC5D7C7C89E0'
 # ----- Login and logout ----- #
 def index(request):
     if request.user.is_authenticated:
-        return redirect('google')
+        return redirect('api-search')
     else:
         if request.method == 'POST':
             username = request.POST.get('username')
@@ -26,7 +26,7 @@ def index(request):
 
             if user is not None:
                 login(request, user)
-                return redirect('google')
+                return redirect('api-search')
             else: 
                 messages.info(request, 'Nome de usuário ou senha incorretos')
                 return render (request, 'home/index.html')
@@ -44,7 +44,7 @@ def logoutU(request):
 
 
 
-
+# Scraping Page
 @login_required
 def global_view(request):
     context = {}
@@ -144,47 +144,50 @@ def google(request):
     return render(request, 'home/google.html', context)
 
 
-'''
+GOOGLE_API_ID = 'a17c43b2a77fc404f'
+GOOGLE_KEY = 'AIzaSyAY7M-s1syUTxV4hw_11TRM8pWwK9NizTo'
+
 @login_required
-def instagram(request):
-    active = 'instagram'
-    INSTAGRAM = 'instagram'
-    
-    context = {'active': active}
+def google_search_api(request):
+    context = {}
+
+
     if request.method == 'POST':
         search = request.POST.get('search')
-        params = {
-            'api_key': f'{API_KEY_SCALE_SERP}',
-            'q': f'"{search}"+"{INSTAGRAM}"',
-            'gl': 'br',
-            'hl': 'pt-br',
+        option_search = request.POST.get('option_search')
+        search_page = request.POST.get('page')
 
-            # Número de páginas que quero pegar o resultado
-            'max_page': '3',
+        
+        # Request
+        if option_search == 'Instagram':  
+            api_result = requests.get(f'https://customsearch.googleapis.com/customsearch/v1?key={GOOGLE_KEY}&cx={GOOGLE_API_ID}&q={search}&start=0&exactTerms={search}&siteSearch=instagram.com')
+        elif option_search == 'Youtube':  
+            api_result = requests.get(f'https://customsearch.googleapis.com/customsearch/v1?key={GOOGLE_KEY}&cx={GOOGLE_API_ID}&q={search}&start=0&exactTerms={search}&siteSearch=youtube.com')  
+        elif option_search == 'Facebook':  
+            api_result = requests.get(f'https://customsearch.googleapis.com/customsearch/v1?key={GOOGLE_KEY}&cx={GOOGLE_API_ID}&q={search}&start=0&exactTerms={search}&siteSearch=facebook.com')  
+        elif option_search == 'Linkedin':  
+            api_result = requests.get(f'https://customsearch.googleapis.com/customsearch/v1?key={GOOGLE_KEY}&cx={GOOGLE_API_ID}&q={search}&start=0&exactTerms={search}&siteSearch=linkedin.com')  
+        elif option_search == 'Twitter':  
+            api_result = requests.get(f'https://customsearch.googleapis.com/customsearch/v1?key={GOOGLE_KEY}&cx={GOOGLE_API_ID}&q={search}&start=0&exactTerms={search}&siteSearch=twitter.com')
+        else:  
+            api_result = requests.get(f'https://customsearch.googleapis.com/customsearch/v1?key={GOOGLE_KEY}&cx={GOOGLE_API_ID}&q={search}&start=0&exactTerms={search}')                      
+            
 
-            # Quantas Vou carregar por vez  
-            'num': '40', 
+        # Res
+        search_results = api_result.json().get('items', [])
 
-            # Quantidade de páginas que irei exibir os resultados
-            'page': '1',     
-        }
-
-        # make the http GET request to Scale SERP
-        api_result = requests.get('https://api.scaleserp.com/search', params)
-
-        # extract the search results from the API response
-        search_results = api_result.json().get('organic_results', [])
-
-        # pass the search results as a context to the template
+        #  ---- 
         context = {
-            'active': active,
+           
             'search': search,
-            'search_results': search_results
+            'search_results': search_results,
+            
         }
+        
 
-    return render(request, 'home/instagram.html', context)
+    return render(request, 'home/google.html', context)
 
-
+'''
 @login_required
 def facebook(request):
     active = 'facebook'
