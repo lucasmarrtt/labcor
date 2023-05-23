@@ -36,7 +36,7 @@ urlpatterns = [
     
     path('busca-avancada/', views.advanced_search, name='busca-avancada'),
 
-    path('global/', views.global_view, name='global'),
+    #path('global/', views.global_view, name='global'),
 
 
   

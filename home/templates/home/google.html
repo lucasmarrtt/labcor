@@ -182,7 +182,7 @@
                               {% if search %}
                               <!-- Pagination -->
                               <div class="col-12 m-t-30">
-                                <form method="POST" action="{% url 'google' %}">
+                                <form method="POST" action="{% url 'api-search' %}">
                                   {% csrf_token %}
                                   <input type="hidden" value="{{search}}" name="search">
 
@@ -191,23 +191,23 @@
 
 
                                       <li class="page-item">
-                                        <input type="radio" name="page" value="11" class="page-link" id="page-1" style="display: none;">
+                                        <input type="number" name="page" value="0" class="page-link" id="page-1" style="display: none;">
                                         <label for="page-1" style="cursor: pointer;" class="page-link">1</label>
                                       </li>
 
                             
                                       <li class="page-item">
-                                        <input type="radio" name="page" value="21" class="page-link" id="page-2" style="display: none;">
+                                        <input type="radio" name="page" value="11" class="page-link" id="page-2" style="display: none;">
                                         <label for="page-2" style="cursor: pointer;" class="page-link">2</label>
                                       </li>
 
-                                      <!--
+                                      
                                       <li class="page-item">
-                                        <input type="radio" name="page" value="3" class="page-link" id="page-3" style="display: none;">
+                                        <input type="radio" name="page" value="22" class="page-link" id="page-3" style="display: none;">
                                         <label for="page-3" style="cursor: pointer;" class="page-link">3</label>
                                       </li>
 
-                                     
+                                     <!--
                                       <li class="page-item">
                                         <input type="radio" name="page" value="4" class="page-link" id="page-4" style="display: none;">
                                         <label for="page-4" style="cursor: pointer;" class="page-link">4</label>
