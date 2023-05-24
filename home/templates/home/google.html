@@ -185,6 +185,7 @@
                                 <form method="POST" action="{% url 'api-search' %}">
                                   {% csrf_token %}
                                   <input type="hidden" value="{{search}}" name="search">
+                                  <input type="hidden" value="{{option_search}}" name="option_search">
 
                                   <nav aria-label="Page navigation example">
                                     <ul class="pagination">
@@ -207,7 +208,7 @@
                                         <label for="page-3" style="cursor: pointer;" class="page-link">3</label>
                                       </li>
 
-                                     <!--
+                                      <!--
                                       <li class="page-item">
                                         <input type="radio" name="page" value="4" class="page-link" id="page-4" style="display: none;">
                                         <label for="page-4" style="cursor: pointer;" class="page-link">4</label>
@@ -256,32 +257,32 @@
     <script type="text/javascript">
 
 
-const radios = document.getElementsByName('option_search');
-const links = document.querySelectorAll('a[id]');
+    const radios = document.getElementsByName('option_search');
+    const links = document.querySelectorAll('a[id]');
 
-// Adiciona um listener de evento para cada input radio
-radios.forEach(radio => {
-  radio.addEventListener('change', () => {
-    const linkId = radio.id.replace('id', '').toLowerCase();
-    const link = document.getElementById(linkId);
+    // Adiciona um listener de evento para cada input radio
+    radios.forEach(radio => {
+      radio.addEventListener('change', () => {
+        const linkId = radio.id.replace('id', '').toLowerCase();
+        const link = document.getElementById(linkId);
 
-    // Armazena o ID do elemento a correspondente no armazenamento local
-    localStorage.setItem('selectedLinkId', linkId);
-    
-    links.forEach(link => {
-      link.classList.remove('active');
+        // Armazena o ID do elemento a correspondente no armazenamento local
+        localStorage.setItem('selectedLinkId', linkId);
+        
+        links.forEach(link => {
+          link.classList.remove('active');
+        });
+        
+        link.classList.add('active');
+      });
     });
-    
-    link.classList.add('active');
-  });
-});
 
-// Verifica o armazenamento local e adiciona a classe active ao elemento a correspondente, se necessário
-const selectedLinkId = localStorage.getItem('selectedLinkId');
-if (selectedLinkId) {
-  const selectedLink = document.getElementById(selectedLinkId);
-  selectedLink.classList.add('active');
-}
+    // Verifica o armazenamento local e adiciona a classe active ao elemento a correspondente, se necessário
+    const selectedLinkId = localStorage.getItem('selectedLinkId');
+    if (selectedLinkId) {
+      const selectedLink = document.getElementById(selectedLinkId);
+      selectedLink.classList.add('active');
+    }
 
 
       
@@ -294,6 +295,7 @@ if (selectedLinkId) {
 
 
     <script>
+      
       const pageRadios = document.getElementsByName('page');
       const pageLinks = document.querySelectorAll('input[type="radio"][name="page"]');
 
@@ -323,6 +325,7 @@ if (selectedLinkId) {
         const selectedPageLink = document.getElementById(`page-link-${selectedPageLinkId}`);
         selectedPageLink.parentNode.classList.add('active');
       }
+
     </script>
 
 

@@ -11,6 +11,8 @@ from bs4 import BeautifulSoup
 
 
 API_KEY_SCALE_SERP = 'A908E1EAF5424306AF13FC5D7C7C89E0'
+GOOGLE_API_ID = 'a17c43b2a77fc404f'
+GOOGLE_KEY = 'AIzaSyAY7M-s1syUTxV4hw_11TRM8pWwK9NizTo'
 
 
 # ----- Login and logout ----- #
@@ -39,8 +41,6 @@ def logoutU(request):
     logout(request)
     return redirect('index')
 # ----- End -----   
-
-
 
 
 '''
@@ -134,13 +134,9 @@ def google(request):
     return render(request, 'home/google.html', context)
 
 
-GOOGLE_API_ID = ''
-GOOGLE_KEY = ''
-
 @login_required
 def google_search_api(request):
     context = {}
-
 
     if request.method == 'POST':
         search = request.POST.get('search')
@@ -166,27 +162,20 @@ def google_search_api(request):
         else:  
             api_result = requests.get(f'https://customsearch.googleapis.com/customsearch/v1?key={GOOGLE_KEY}&cx={GOOGLE_API_ID}&q={search}&start=0&exactTerms={search}&start={search_page}')                      
 
-        
         # Total Page counter
         total_results = api_result.json().get("queries", {}).get("request", [{}])[0].get("totalResults", 0)
         total_results = int(total_results)
-
- 
-
-
 
         # Res
         search_results = api_result.json().get('items', [])
 
         #  ---- 
         context = {
-           
             'search': search,
             'search_results': search_results,
-            
+            'option_search': option_search,
         }
-        
-
+    
     return render(request, 'home/google.html', context)
 
 
