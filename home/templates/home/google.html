@@ -171,13 +171,14 @@
                                   <nav aria-label="Page navigation example">
                                     <ul class="pagination">
 
-
+                                      {% for pagina in paginas %}
                                       <li class="page-item">
-                                        <input type="number" name="page" value="0" class="page-link" id="page-1" style="display: none;">
-                                        <label for="page-1" style="cursor: pointer;" class="page-link">1</label>
+                                        <input type="radio" name="page" value="{{ pagina }}" class="page-link" id="page-{{ forloop.counter }}" style="display: none;">
+                                        <label for="page-{{ forloop.counter }}" style="cursor: pointer;" class="page-link">{{ forloop.counter }}</label>
                                       </li>
+                                      {% endfor %}
 
-                            
+                                      <!--
                                       <li class="page-item">
                                         <input type="radio" name="page" value="11" class="page-link" id="page-2" style="display: none;">
                                         <label for="page-2" style="cursor: pointer;" class="page-link">2</label>
@@ -189,7 +190,7 @@
                                         <label for="page-3" style="cursor: pointer;" class="page-link">3</label>
                                       </li>
 
-                                      <!--
+                                      
                                       <li class="page-item">
                                         <input type="radio" name="page" value="4" class="page-link" id="page-4" style="display: none;">
                                         <label for="page-4" style="cursor: pointer;" class="page-link">4</label>
@@ -199,7 +200,9 @@
                                         <input type="radio" name="page" value="5" class="page-link" id="page-5" style="display: none;">
                                         <label for="page-5" style="cursor: pointer;" class="page-link">5</label>
                                       </li>
-                                      -->
+
+                                    -->
+                                    
                       
                                     
 

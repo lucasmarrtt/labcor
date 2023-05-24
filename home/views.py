@@ -150,21 +150,46 @@ def google_search_api(request):
 
         # Request
         if option_search == 'Instagram':  
-            api_result = requests.get(f'https://customsearch.googleapis.com/customsearch/v1?key={GOOGLE_KEY}&cx={GOOGLE_API_ID}&q={search}&start=0&exactTerms={search}&siteSearch=instagram.com')
+            api_result = requests.get(f'https://customsearch.googleapis.com/customsearch/v1?key={GOOGLE_KEY}&cx={GOOGLE_API_ID}&q={search}&lr=lang_pt&start=0&exactTerms={search}&siteSearch=instagram.com')
         elif option_search == 'Youtube':  
-            api_result = requests.get(f'https://customsearch.googleapis.com/customsearch/v1?key={GOOGLE_KEY}&cx={GOOGLE_API_ID}&q={search}&start=0&exactTerms={search}&siteSearch=youtube.com')  
+            api_result = requests.get(f'https://customsearch.googleapis.com/customsearch/v1?key={GOOGLE_KEY}&cx={GOOGLE_API_ID}&q={search}&lr=lang_pt&start=0&exactTerms={search}&siteSearch=youtube.com')  
         elif option_search == 'Facebook':  
-            api_result = requests.get(f'https://customsearch.googleapis.com/customsearch/v1?key={GOOGLE_KEY}&cx={GOOGLE_API_ID}&q={search}&start=0&exactTerms={search}&siteSearch=facebook.com')  
+            api_result = requests.get(f'https://customsearch.googleapis.com/customsearch/v1?key={GOOGLE_KEY}&cx={GOOGLE_API_ID}&q={search}&lr=lang_pt&start=0&exactTerms={search}&siteSearch=facebook.com')  
         elif option_search == 'Linkedin':  
-            api_result = requests.get(f'https://customsearch.googleapis.com/customsearch/v1?key={GOOGLE_KEY}&cx={GOOGLE_API_ID}&q={search}&start=0&exactTerms={search}&siteSearch=linkedin.com')  
+            api_result = requests.get(f'https://customsearch.googleapis.com/customsearch/v1?key={GOOGLE_KEY}&cx={GOOGLE_API_ID}&q={search}&lr=lang_pt&start=0&exactTerms={search}&siteSearch=linkedin.com')  
         elif option_search == 'Twitter':  
-            api_result = requests.get(f'https://customsearch.googleapis.com/customsearch/v1?key={GOOGLE_KEY}&cx={GOOGLE_API_ID}&q={search}&start=0&exactTerms={search}&siteSearch=twitter.com&start={search_page}')
+            api_result = requests.get(f'https://customsearch.googleapis.com/customsearch/v1?key={GOOGLE_KEY}&cx={GOOGLE_API_ID}&q={search}&lr=lang_pt&start=0&exactTerms={search}&siteSearch=twitter.com&start={search_page}')
         else:  
-            api_result = requests.get(f'https://customsearch.googleapis.com/customsearch/v1?key={GOOGLE_KEY}&cx={GOOGLE_API_ID}&q={search}&start=0&exactTerms={search}&start={search_page}')                      
+            api_result = requests.get(f'https://customsearch.googleapis.com/customsearch/v1?key={GOOGLE_KEY}&cx={GOOGLE_API_ID}&q={search}&lr=lang_pt&start=0&exactTerms={search}&start={search_page}')                      
 
         # Total Page counter
         total_results = api_result.json().get("queries", {}).get("request", [{}])[0].get("totalResults", 0)
         total_results = int(total_results)
+
+
+        dados = total_results
+        resultados_por_pagina = 10
+
+        num_paginas = -(-dados // resultados_por_pagina)
+
+        print("Número de páginas:", num_paginas)
+
+
+        num_paginas = num_paginas
+        valor_inicial = 0
+        incremento = 11
+
+        paginas = []
+        for pagina in range(num_paginas):
+            valor = valor_inicial + (pagina * incremento)
+            paginas.append(valor)
+
+        paginas = paginas[:5]    
+
+
+   
+
+
 
         # Res
         search_results = api_result.json().get('items', [])
@@ -174,6 +199,7 @@ def google_search_api(request):
             'search': search,
             'search_results': search_results,
             'option_search': option_search,
+            'paginas': paginas,
         }
     
     return render(request, 'home/google.html', context)
