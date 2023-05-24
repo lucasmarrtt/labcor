@@ -87,27 +87,8 @@
                       <div class="card-body">
 
                         
-                        <!--
-
-                          <form id="global-search-form" method="POST" action="{% url 'google' %}">
-
-                            {% csrf_token %}
-       
-
-        <input type="text" value="{{ search }}" name="search">
-
-        <label><input onchange="this.form.submit();" type="radio" name="option_search" value="">Google</label>
-         <label><input onchange="this.form.submit();" type="radio" name="option_search" value="Facebook">Facebook</label>
-         <label><input onchange="this.form.submit();" type="radio" name="option_search" value="Twitter">Twitter</label>
-         <label><input onchange="this.form.submit();" type="radio" name="option_search" value="Instagram">Instagram</label>
-         <label><input onchange="this.form.submit();" type="radio" name="option_search" value="Youtube">Youtube</label>
-         <label><input onchange="this.form.submit();" type="radio" name="option_search" value="Linkedin">Linkedin</label>
-
-         <button>Enviar</button>
-
-    </form>
-
-  -->
+    
+  
 
 
 
@@ -184,8 +165,8 @@
                               <div class="col-12 m-t-30">
                                 <form method="POST" action="{% url 'api-search' %}">
                                   {% csrf_token %}
-                                  <input type="hidden" value="{{search}}" name="search">
-                                  <input type="hidden" value="{{option_search}}" name="option_search">
+                                  <input type="hidden" value="{{ search }}" name="search">
+                                  <input type="hidden" value="{{ option_search }}" name="option_search">
 
                                   <nav aria-label="Page navigation example">
                                     <ul class="pagination">
