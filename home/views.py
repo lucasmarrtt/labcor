@@ -144,19 +144,19 @@ def google_search_api(request):
         search_page = request.POST.get('page')
 
         if search_page is None:
-            search_page = 0
+            search_page = 1
         else:
             search_page  
 
         # Request
         if option_search == 'Instagram':  
-            api_result = requests.get(f'https://customsearch.googleapis.com/customsearch/v1?key={GOOGLE_KEY}&cx={GOOGLE_API_ID}&q={search}&lr=lang_pt&start=0&exactTerms={search}&siteSearch=instagram.com')
+            api_result = requests.get(f'https://customsearch.googleapis.com/customsearch/v1?key={GOOGLE_KEY}&cx={GOOGLE_API_ID}&q={search}&lr=lang_pt&start=0&exactTerms={search}&siteSearch=instagram.com&start={search_page}')
         elif option_search == 'Youtube':  
-            api_result = requests.get(f'https://customsearch.googleapis.com/customsearch/v1?key={GOOGLE_KEY}&cx={GOOGLE_API_ID}&q={search}&lr=lang_pt&start=0&exactTerms={search}&siteSearch=youtube.com')  
+            api_result = requests.get(f'https://customsearch.googleapis.com/customsearch/v1?key={GOOGLE_KEY}&cx={GOOGLE_API_ID}&q={search}&lr=lang_pt&start=0&exactTerms={search}&siteSearch=youtube.com&start={search_page}')  
         elif option_search == 'Facebook':  
-            api_result = requests.get(f'https://customsearch.googleapis.com/customsearch/v1?key={GOOGLE_KEY}&cx={GOOGLE_API_ID}&q={search}&lr=lang_pt&start=0&exactTerms={search}&siteSearch=facebook.com')  
+            api_result = requests.get(f'https://customsearch.googleapis.com/customsearch/v1?key={GOOGLE_KEY}&cx={GOOGLE_API_ID}&q={search}&lr=lang_pt&start=0&exactTerms={search}&siteSearch=facebook.com&start={search_page}')  
         elif option_search == 'Linkedin':  
-            api_result = requests.get(f'https://customsearch.googleapis.com/customsearch/v1?key={GOOGLE_KEY}&cx={GOOGLE_API_ID}&q={search}&lr=lang_pt&start=0&exactTerms={search}&siteSearch=linkedin.com')  
+            api_result = requests.get(f'https://customsearch.googleapis.com/customsearch/v1?key={GOOGLE_KEY}&cx={GOOGLE_API_ID}&q={search}&lr=lang_pt&start=0&exactTerms={search}&siteSearch=linkedin.com&start={search_page}')  
         elif option_search == 'Twitter':  
             api_result = requests.get(f'https://customsearch.googleapis.com/customsearch/v1?key={GOOGLE_KEY}&cx={GOOGLE_API_ID}&q={search}&lr=lang_pt&start=0&exactTerms={search}&siteSearch=twitter.com&start={search_page}')
         else:  
@@ -176,7 +176,7 @@ def google_search_api(request):
 
 
         num_paginas = num_paginas
-        valor_inicial = 0
+        valor_inicial = 1
         incremento = 11
 
         paginas = []

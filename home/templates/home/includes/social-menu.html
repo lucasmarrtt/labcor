@@ -1,5 +1,89 @@
 <div class="text-center">
 
+  <style>
+    .social-block{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .input-block{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: transparent;
+      width: 80px;
+      height: 80px;
+    }
+    .hide-input-social{
+      display: none;
+    }
+    .label-social-input{
+      font-size: 28px;
+      color: #2a4070;
+
+    }
+    .label-social-input:hover{
+      transition: 0.5s;
+      font-size: 30px;
+      color: #3463cf;
+
+    }
+
+    @media (max-width: 492px)
+    {
+      .social-block
+      {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: 0.5s;
+      }
+      .label-social-input{
+      font-size: 22px;
+      color: #2a4070;
+      transition: 0.5s;
+
+      }
+      .label-social-input:hover{
+        transition: 0.5s;
+        font-size: 24px;
+        color: #3463cf;
+        transition: 0.5s;
+
+      }
+    }
+  </style>
+
+
+  <div class="social-block">
+
+    <div class="input-block">
+        <input class="hide-input-social" type="radio" name="option_search" value="" id="radioGoogle" onclick="handleRadioClick(this); this.form.submit();">
+        <label class="label-social-input" for="radioGoogle" id="labelGoogle"><i class="fa-brands fa-google"></i></label><br>
+    </div>
+    <div class="input-block">
+        <input class="hide-input-social" type="radio" name="option_search" value="Instagram" id="radioInstagram" onclick="handleRadioClick(this); this.form.submit();">
+        <label class="label-social-input" for="radioInstagram" id="labelInstagram"><i class="fa-brands fa-instagram"></i></label><br>
+    </div>
+    <div class="input-block">
+        <input class="hide-input-social" type="radio" name="option_search" value="Youtube" id="radioYoutube" onclick="handleRadioClick(this); this.form.submit();">
+        <label class="label-social-input" for="radioYoutube" id="labelYoutube"><i  class="fa-brands fa-youtube"></i></label><br>
+    </div>
+    <div class="input-block">
+        <input class="hide-input-social" type="radio" name="option_search" value="Facebook" id="radioFacebook" onclick="handleRadioClick(this); this.form.submit();">
+        <label class="label-social-input" for="radioFacebook" id="labelFacebook"><i  class="fa-brands fa-facebook"></i></label><br>
+    </div>
+    <div class="input-block">
+        <input class="hide-input-social" type="radio" name="option_search" value="Linkedin" id="radioLinkedin" onclick="handleRadioClick(this); this.form.submit();">
+        <label class="label-social-input" for="radioLinkedin" id="labelLinkedin"><i  class="fa-brands fa-linkedin"></i></label><br>
+    </div>
+    <div class="input-block">
+        <input class="hide-input-social" type="radio" name="option_search" value="Twitter" id="radioTwitter" onclick="handleRadioClick(this); this.form.submit();">
+        <label class="label-social-input" for="radioTwitter" id="labelTwitter"><i  class="fa-brands fa-twitter"></i></label><br>
+    </div>
+   
+
+  </div>
 
 
 
@@ -9,6 +93,7 @@
 
 
 
+    <!--
     <ul class="nav nav-tabs search-list" id="top-tab" role="tablist">
 
       
@@ -91,6 +176,7 @@
     
     
     </ul>
+  -->
 </div>
 
 

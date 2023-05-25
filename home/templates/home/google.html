@@ -140,77 +140,50 @@
 
                               </div>
 
+                              <style>
+                                .form-paginator{
+                                  display: flex;
+
+                                }
+
+                                .radio-hidden{
+                                  display: none;
+                                }
+
+                                .label-paginator{
+                                  cursor: pointer;
+                                  background: #2a3e7108;
+                                  padding: 10px;
+                                  margin-left: 5px;
+                                  font-size: 18px;
+                                  font-weight: 300;
+                                }
+                              </style>
                             
 
-                              <!--
-                              <div class="col-12 m-t-30">
-                                <nav aria-label="...">
-                                  <ul class="pagination pagination-primary justify-content-end">
-                                    <li class="page-item disabled"><a class="page-link" href="javascript:void(0)" tabindex="-1">Previous</a></li>
-                                    <li class="page-item"><a class="page-link" href="javascript:void(0)">1</a></li>
-                                    <li class="page-item active"><a class="page-link" href="javascript:void(0)">2<span class="sr-only">(current)</span></a></li>
-                                    <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
-                                    <li class="page-item"><a class="page-link" href="javascript:void(0)">Next</a></li>
-                                  </ul>
-                                </nav>
-                              </div>
-                              -->
+                              
+
+
+                            {% if search and paginas %}
+                            <div class="col-12 m-t-30">
+                              <form class="form-paginator" method="POST" action="{% url 'api-search' %}">
+                              {% csrf_token %}
+
+                                  <input type="hidden" value="{{ search }}" name="search">
+                                  <input type="hidden" value="{{ option_search }}" name="option_search">
+                              
+                                  {% for pagina in paginas %}
+                                  <input class="radio-hidden" type="radio" name="page" value="{{ pagina }}" id="radio{{ forloop.counter }}" onclick="handleRadioClick(this); this.form.submit();" {% if forloop.first  %} checked {% endif %}>
+                                  <label class="label-paginator" for="radio{{ forloop.counter }}" id="label{{ forloop.counter }}">{{ forloop.counter }}</label><br>
+                                  {% endfor %}
+                              </form>
+                            </div>
+                            {% endif %}
 
              
 
 
 
-                              {% if search %}
-                              <!-- Pagination -->
-                              <div class="col-12 m-t-30">
-                                <form method="POST" action="{% url 'api-search' %}">
-                                  {% csrf_token %}
-                                  <input type="hidden" value="{{ search }}" name="search">
-                                  <input type="hidden" value="{{ option_search }}" name="option_search">
-
-                                  <nav aria-label="Page navigation example">
-                                    <ul class="pagination">
-
-                                      {% for pagina in paginas %}
-                                      <li class="page-item">
-                                        <input type="radio" name="page" value="{{ pagina }}" class="page-link" id="page-{{ forloop.counter }}" style="display: none;">
-                                        <label for="page-{{ forloop.counter }}" style="cursor: pointer;" class="page-link">{{ forloop.counter }}</label>
-                                      </li>
-                                      {% endfor %}
-
-                                      <!--
-                                      <li class="page-item">
-                                        <input type="radio" name="page" value="11" class="page-link" id="page-2" style="display: none;">
-                                        <label for="page-2" style="cursor: pointer;" class="page-link">2</label>
-                                      </li>
-
-                                      
-                                      <li class="page-item">
-                                        <input type="radio" name="page" value="22" class="page-link" id="page-3" style="display: none;">
-                                        <label for="page-3" style="cursor: pointer;" class="page-link">3</label>
-                                      </li>
-
-                                      
-                                      <li class="page-item">
-                                        <input type="radio" name="page" value="4" class="page-link" id="page-4" style="display: none;">
-                                        <label for="page-4" style="cursor: pointer;" class="page-link">4</label>
-                                      </li>
-
-                                      <li class="page-item">
-                                        <input type="radio" name="page" value="5" class="page-link" id="page-5" style="display: none;">
-                                        <label for="page-5" style="cursor: pointer;" class="page-link">5</label>
-                                      </li>
-
-                                    -->
-                                    
-                      
-                                    
-
-                                    </ul>
-                                  </nav>
-                                </form>
-                              </div>
-                              {% endif %}
 
                             </div>
                           </div>
@@ -238,77 +211,76 @@
     {% include 'home/includes/js.html' %}
 
 
-    <script type="text/javascript">
 
 
-    const radios = document.getElementsByName('option_search');
-    const links = document.querySelectorAll('a[id]');
-
-    // Adiciona um listener de evento para cada input radio
-    radios.forEach(radio => {
-      radio.addEventListener('change', () => {
-        const linkId = radio.id.replace('id', '').toLowerCase();
-        const link = document.getElementById(linkId);
-
-        // Armazena o ID do elemento a correspondente no armazenamento local
-        localStorage.setItem('selectedLinkId', linkId);
-        
-        links.forEach(link => {
-          link.classList.remove('active');
-        });
-        
-        link.classList.add('active');
-      });
-    });
-
-    // Verifica o armazenamento local e adiciona a classe active ao elemento a correspondente, se necessário
-    const selectedLinkId = localStorage.getItem('selectedLinkId');
-    if (selectedLinkId) {
-      const selectedLink = document.getElementById(selectedLinkId);
-      selectedLink.classList.add('active');
-    }
-
-
-      
-
-    </script>
-
-
-
-
-
-
+    <!-- Social icons select -->
     <script>
+      (function() {
+        var radios = document.querySelectorAll('.social-block input[type="radio"]');
+        var labels = document.querySelectorAll('.social-block label');
       
-      const pageRadios = document.getElementsByName('page');
-      const pageLinks = document.querySelectorAll('input[type="radio"][name="page"]');
+        function handleRadioClick(radio) {
+          labels.forEach(function(label) {
+            if (label.getAttribute('for') === radio.id) {
+              label.style.color = 'tomato';
+            } else {
+              label.style.color = '';
+            }
+          });
+      
+          localStorage.setItem('selectedRadio', radio.value);
+        }
+      
+        window.addEventListener('load', function() {
+          var selectedRadio = localStorage.getItem('selectedRadio');
+      
+          if (selectedRadio) {
+            var radioElement = document.querySelector('.social-block input[type="radio"][value="' + selectedRadio + '"]');
+            if (radioElement) {
+              radioElement.checked = true;
+              handleRadioClick(radioElement);
+            }
+          }
+        });
+      
+        radios.forEach(function(radio) {
+          radio.addEventListener('click', function() {
+            handleRadioClick(this);
+            this.form.submit();
+          });
+        });
+      })();
+      </script>
 
-      // Adiciona um listener de evento para cada input radio
-      pageRadios.forEach(pageRadio => {
-        pageRadio.addEventListener('change', () => {
-          // Dispara o submit do formulário quando um radio é selecionado
-          pageRadio.closest('form').submit();
 
-          const linkId = pageRadio.id.replace('page-', '').toLowerCase();
-          const link = document.getElementById(`page-link-${linkId}`);
-
-          // Armazena o ID do elemento a correspondente no armazenamento local
-          localStorage.setItem('selectedPageLinkId', linkId);
-
-          pageLinks.forEach(pageLink => {
-            pageLink.parentNode.classList.remove('active');
+      <!-- Script Pagination -->
+      <script>
+        
+        function handleRadioClick(radio) {
+          var labels = document.querySelectorAll('label');
+          
+          labels.forEach(function(label) {
+            if (label.getAttribute('for') === radio.id) {
+              label.style.color = 'orange';
+            } else {
+              label.style.color = '';
+            }
           });
 
-          link.parentNode.classList.add('active');
-        });
-      });
+          localStorage.setItem('selectedRadio', radio.value);
+        }
 
-      // Verifica o armazenamento local e adiciona a classe active ao elemento a correspondente, se necessário
-      const selectedPageLinkId = localStorage.getItem('selectedPageLinkId');
-      if (selectedPageLinkId) {
-        const selectedPageLink = document.getElementById(`page-link-${selectedPageLinkId}`);
-        selectedPageLink.parentNode.classList.add('active');
-      }
+        window.addEventListener('load', function() {
+          var selectedRadio = localStorage.getItem('selectedRadio');
+
+          if (selectedRadio) {
+            var radioElement = document.querySelector('input[name="page"][value="' + selectedRadio + '"]');
+            if (radioElement) {
+              radioElement.checked = true;
+              handleRadioClick(radioElement);
+            }
+          }
+        });
 
     </script>
 
