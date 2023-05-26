@@ -11,8 +11,8 @@ from bs4 import BeautifulSoup
 
 
 API_KEY_SCALE_SERP = 'A908E1EAF5424306AF13FC5D7C7C89E0'
-GOOGLE_API_ID = ''
-GOOGLE_KEY = ''
+GOOGLE_API_ID = '9190d8416fc7b1c51'
+GOOGLE_KEY = 'AIzaSyCzj3KqXEaPgANfd8rNB92aPRiDcsq7kNA'
 
 
 # ----- Login and logout ----- #
