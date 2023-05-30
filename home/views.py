@@ -173,6 +173,7 @@ def google_search_api(request):
         num_paginas = -(-dados // resultados_por_pagina)
 
         print("Número de páginas:", num_paginas)
+        print(option_search)
 
 
         num_paginas = num_paginas
