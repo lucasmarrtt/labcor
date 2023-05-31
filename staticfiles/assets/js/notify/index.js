@@ -1,3 +1,5 @@
+/*
+
 "use strict";
 var notify = $.notify(
   '<i class="fa fa-bell-o"></i><strong>Carregando...</strong> Aguarde um momento...',
@@ -20,3 +22,4 @@ setTimeout(function () {
     '<i class="fa fa-bell-o"></i><strong>Carregando...</strong> Olá usuário.'
   );
 }, 1000);
+*/
