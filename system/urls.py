@@ -21,6 +21,9 @@ from home import views
 from django.conf.urls.static import static
 from django.conf import settings 
 
+# Render Database 
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+
 urlpatterns = [
     path('admin/', admin.site.urls),
 
@@ -47,3 +50,7 @@ urlpatterns = [
 admin.AdminSite.site_header = 'System'
 admin.AdminSite.site_title = 'System'
 admin.AdminSite.index_title = 'System'
+
+
+# Render Deploy 
+urlpatterns += staticfiles_urlpatterns()
